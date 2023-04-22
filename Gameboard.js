@@ -16,8 +16,21 @@ const GameboardFactory = () => {
         return ships[ships.length-1];
     }
 
+    function receiveAttack(x, y) {
+        let isHit = false;
+        ships.forEach(ship => {
+            if(ship.x === x && ship.y === y) {
+                ship.ship.hit();
+                isHit = true;
+            }
+        })
+        return isHit;
+    }
+
     return {
-        placeShip
+        ships,
+        placeShip,
+        receiveAttack
     }
 }
 
