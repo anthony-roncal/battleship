@@ -3,6 +3,7 @@ const Ship = require('./Ship');
 const GameboardFactory = () => { 
 
     let ships = [];
+    let receivedShots = [];
     
     function placeShip(startX, startY, endX, endY) {
         if(startX === endX && startY === endY) {
@@ -17,6 +18,7 @@ const GameboardFactory = () => {
     }
 
     function receiveAttack(x, y) {
+        receivedShots.push({x: x, y: y});
         let isHit = false;
         ships.forEach(ship => {
             if(ship.x === x && ship.y === y) {
@@ -29,6 +31,7 @@ const GameboardFactory = () => {
 
     return {
         ships,
+        receivedShots,
         placeShip,
         receiveAttack
     }

@@ -17,6 +17,8 @@ test('receive a missed attack', () => {
     expect(gameboard.ships[0].ship.isSunk()).toBeFalsy();
     expect(gameboard.receiveAttack(0, 0)).toBeFalsy();
     expect(gameboard.ships[0].ship.isSunk()).toBeFalsy();
+    expect(gameboard.receivedShots[0].x).toBe(0);
+    expect(gameboard.receivedShots[0].y).toBe(0);
 })
 
 test('receive a hit attack', () => {
@@ -25,4 +27,6 @@ test('receive a hit attack', () => {
     expect(gameboard.ships[0].ship.isSunk()).toBeFalsy();
     expect(gameboard.receiveAttack(0, 0)).toBeTruthy();
     expect(gameboard.ships[0].ship.isSunk()).toBeTruthy();
+    expect(gameboard.receivedShots[0].x).toBe(0);
+    expect(gameboard.receivedShots[0].y).toBe(0);
 })
