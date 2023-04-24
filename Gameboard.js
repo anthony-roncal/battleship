@@ -29,11 +29,22 @@ const GameboardFactory = () => {
         return isHit;
     }
 
+    function allSunk() {
+        let allSunk = true;
+        for(let i = 0; i < ships.length; i++) {
+            if (!ships[i].ship.isSunk()) {
+                allSunk = false;
+            }
+        }
+        return allSunk;
+    }
+
     return {
         ships,
         receivedShots,
         placeShip,
-        receiveAttack
+        receiveAttack,
+        allSunk
     }
 }
 

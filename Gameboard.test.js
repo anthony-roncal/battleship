@@ -30,3 +30,14 @@ test('receive a hit attack', () => {
     expect(gameboard.receivedShots[0].x).toBe(0);
     expect(gameboard.receivedShots[0].y).toBe(0);
 })
+
+test('check if all ships are sunk', () => {
+    let gameboard = Gameboard();
+    gameboard.placeShip(0, 0, 0, 0);
+    gameboard.placeShip(1, 1, 1, 1);
+    expect(gameboard.allSunk()).toBeFalsy();
+    gameboard.receiveAttack(0, 0);
+    expect(gameboard.allSunk()).toBeFalsy();
+    gameboard.receiveAttack(1, 1);
+    expect(gameboard.allSunk()).toBeTruthy();
+})
