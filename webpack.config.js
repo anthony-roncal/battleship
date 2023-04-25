@@ -6,13 +6,16 @@ module.exports = {
     entry: {
         index: './src/index.js',
     },
+    devtool: 'inline-source-map',
     devServer: {
         static: './dist',
     },
     plugins: [
         new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html',
             title: 'Development',
-        }),
+          }),
     ],
     output: {
         filename: '[name].bundle.js',
