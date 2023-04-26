@@ -5,17 +5,12 @@ export default function displayController(playerGameboard, computerGameboard) {
         const playerGrid = document.querySelector('.player-grid');
         const computerGrid = document.querySelector('.computer-grid');
 
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 200; i++) {
             let square = document.createElement('div');
-            let squareC = document.createElement('div');
             square.setAttribute('style', `width: 40px; height: 40px; border: solid 1px black; box-sizing: border-box;`);
             square.classList.add("square");
-            square.textContent = i;
-            squareC.setAttribute('style', `width: 40px; height: 40px; border: solid 1px black; box-sizing: border-box;`);
-            squareC.classList.add("square");
-            squareC.textContent = i;
-            playerGrid.appendChild(square);
-            computerGrid.appendChild(squareC);
+            (i < 100) ? square.textContent = i : square.textContent = (i - 100);
+            (i < 100) ? playerGrid.appendChild(square) : computerGrid.appendChild(square);
         }
 
         // mark ship locations
