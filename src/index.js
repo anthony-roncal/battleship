@@ -1,24 +1,17 @@
 import './style.css';
+import displayController from './displayController';
+import Gameboard from './Gameboard';
 
-let size = 10;
-let side = 300/size;
-const playerGrid = document.querySelector('.player-grid');
-const computerGrid = document.querySelector('.computer-grid');
+const playerGameboard = Gameboard();
+playerGameboard.placeShip(0,0,0,0);
+playerGameboard.placeShip(2,2,2,2);
+playerGameboard.placeShip(5,5,5,5);
+playerGameboard.placeShip(7,7,7,7);
 
-function createGrid(size, div){
-    // remove any other elements before generating grids
-    Array.from(div.children).forEach(child => {
-        div.removeChild(child);
-    })
-    // generate grid
-    for (let i = 0; i < Math.pow(size, 2); i++) {
-        let square = document.createElement('div');
-        side = 300/size;
-        square.setAttribute('style', `width: ${side}px; height: ${side}px; border: solid 1px black; box-sizing: border-box;`);
-        square.classList.add("square");
-        div.appendChild(square);
-    }
-}
+const computerGameboard = Gameboard();
+computerGameboard.placeShip(8,1,8,1);
+computerGameboard.placeShip(5,3,5,3);
+computerGameboard.placeShip(2,6,2,6);
+computerGameboard.placeShip(1,8,1,8);
 
-createGrid(size, playerGrid);
-createGrid(size, computerGrid);
+const display = displayController(playerGameboard, computerGameboard);

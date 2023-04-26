@@ -13,8 +13,12 @@ body {
 .player-grid,
 .computer-grid {
     margin-top: 50px;
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 400px;
+    max-height: 400px;
     display: flex;
     flex-wrap: wrap;
+}
+
+.ship {
+    background-color: black;
 }
