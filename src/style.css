@@ -1,0 +1,20 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.container {
+    display: flex;
+    gap: 100px;
+}
+
+.player-grid,
+.computer-grid {
+    margin-top: 50px;
+    max-width: 300px;
+    max-height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
