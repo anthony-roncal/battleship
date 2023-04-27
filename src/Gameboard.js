@@ -17,8 +17,8 @@ const GameboardFactory = () => {
         return ships[ships.length-1];
     }
 
-    function receiveAttack(x, y) {
-        receivedShots.push({x: x, y: y});
+    function receiveAttack({x, y}) {
+        receivedShots.push({x, y});
         let isHit = false;
         ships.forEach(ship => {
             if(ship.x === x && ship.y === y) {

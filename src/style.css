@@ -3,6 +3,7 @@ body {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -10,9 +11,12 @@ body {
     gap: 100px;
 }
 
+.message {
+    font-size: 26px;
+}
+
 .player-grid,
 .computer-grid {
-    margin-top: 50px;
     max-width: 400px;
     max-height: 400px;
     display: flex;

@@ -1,6 +1,7 @@
 export default function displayController(playerGameboard, computerGameboard) {
     const playerGrid = document.querySelector('.player-grid');
     const computerGrid = document.querySelector('.computer-grid');
+    const message = document.querySelector('.message');
 
     (function init() {
         // init grids
@@ -25,6 +26,10 @@ export default function displayController(playerGameboard, computerGameboard) {
 
     function playerAttack(target, isHit) {
         (isHit) ? computerGrid.children[target].classList.add('hit') : computerGrid.children[target].classList.add('miss');
+    }
+
+    function computerAttack() {
+
     }
 
     return {
