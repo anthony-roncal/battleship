@@ -28,11 +28,14 @@ export default function displayController(playerGameboard, computerGameboard) {
         (isHit) ? computerGrid.children[target].classList.add('hit') : computerGrid.children[target].classList.add('miss');
     }
 
-    function computerAttack() {
+    function computerAttack(target, isHit) {
+        let index = target.y * 10 + target.x;
+        (isHit) ? playerGrid.children[index].classList.add('hit') : playerGrid.children[index].classList.add('miss');
 
     }
 
     return {
-        playerAttack
+        playerAttack,
+        computerAttack
     }
 };

@@ -23,7 +23,7 @@ let turn = 0;
 
 // add event listeners to computer grid for player attacks
 Array.from(computerGrid.children).forEach(square => {
-    square.addEventListener('click', playerAttackListener, {once: true});
+    square.addEventListener('click', playerAttackListener);
 })
 
 function playerAttackListener(e) {
@@ -37,5 +37,19 @@ function playerAttack(e) {
     let attack = player.attack(index%10, Math.floor(index/10));
     let isHit = computerGameboard.receiveAttack(attack);
     display.playerAttack(index, isHit);
-    // turn++;
+    turn++;
+    computerAttack();
+}
+
+function computerAttack() {
+    let attack = computer.randomAttack();
+    while (playerGameboard.receivedShots.some(a => (a.x === attack.x && a.y === attack.y))){
+        try {
+            attack = computer.randomAttack();
+        }
+        catch {}
+    } 
+    let isHit = playerGameboard.receiveAttack(attack);
+    display.computerAttack(attack, isHit);
+    turn++;
 }
