@@ -58,7 +58,6 @@ function computerAttack() {
         }
         catch {}
     } 
-    console.log(`computer attacks ${attack.x}, ${attack.y}`);
     let isHit = playerGameboard.receiveAttack(attack);
     display.computerAttack(attack, isHit);
     if(playerGameboard.allSunk()) 
