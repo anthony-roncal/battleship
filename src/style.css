@@ -34,3 +34,7 @@ body {
 .miss {
     background-color: red;
 }
+
+.restart {
+    display: none;
+}

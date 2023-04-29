@@ -2,8 +2,9 @@ export default function displayController(playerGameboard, computerGameboard) {
     const playerGrid = document.querySelector('.player-grid');
     const computerGrid = document.querySelector('.computer-grid');
     const message = document.querySelector('.message');
+    const restartButton = document.querySelector('.restart');
 
-    (function init() {
+    function init() {
         // init grids
         for (let i = 0; i < 200; i++) {
             let square = document.createElement('div');
@@ -22,7 +23,7 @@ export default function displayController(playerGameboard, computerGameboard) {
             let shipIndex = (ship.y * 10) + ship.x;
             computerGrid.children[shipIndex].classList.add('ship');
         })
-    })();
+    };
 
     function playerAttack(target, isHit) {
         (isHit) ? computerGrid.children[target].classList.add('hit') : computerGrid.children[target].classList.add('miss');
@@ -34,8 +35,24 @@ export default function displayController(playerGameboard, computerGameboard) {
 
     }
 
+    function endGame(playerWon) {
+        (playerWon) ? message.textContent = "You win!" : message.textContent = "You lose!";
+        restartButton.style.display = 'block';
+    }
+
+    function resetGame() {
+        message.textContent = '';
+        restartButton.style.display = 'none';
+        Array.from(playerGrid.children).forEach(child => playerGrid.removeChild(child));
+        Array.from(computerGrid.children).forEach(child => computerGrid.removeChild(child));
+        init();
+    }
+
     return {
+        init,
         playerAttack,
-        computerAttack
+        computerAttack,
+        endGame,
+        resetGame
     }
 };
