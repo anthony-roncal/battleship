@@ -37,4 +37,7 @@ body {
 
 .restart {
     display: none;
+    font-size: 20px;
+    padding: 10px 25px;
+    border-radius: 25px;
 }

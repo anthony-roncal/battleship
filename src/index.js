@@ -15,8 +15,8 @@ playerGameboard.placeShip(7,7,7,7);
 const computer = Player();
 const computerGameboard = Gameboard();
 computerGameboard.placeShip(8,1,8,1);
-computerGameboard.placeShip(5,3,5,3);
-computerGameboard.placeShip(2,6,2,6);
+computerGameboard.placeShip(6,3,6,3);
+computerGameboard.placeShip(3,6,3,6);
 computerGameboard.placeShip(1,8,1,8);
 
 const display = displayController(playerGameboard, computerGameboard);
