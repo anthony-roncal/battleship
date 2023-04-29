@@ -14,16 +14,26 @@ export default function displayController(playerGameboard, computerGameboard) {
             (i < 100) ? playerGrid.appendChild(square) : computerGrid.appendChild(square);
         }
 
-        // mark ship locations
-        playerGameboard.ships.forEach(ship => {
-            let shipIndex = (ship.y * 10) + ship.x;
-            playerGrid.children[shipIndex].classList.add('ship');
-        })
+        // prompt player to place ships
+        message.textContent = 'Place your ships';
+
+        // mark computer ship locations
         computerGameboard.ships.forEach(ship => {
             let shipIndex = (ship.y * 10) + ship.x;
             computerGrid.children[shipIndex].classList.add('ship');
         })
     };
+
+    function markPlayerShips() {
+        playerGameboard.ships.forEach(ship => {
+            let shipIndex = (ship.y * 10) + ship.x;
+            playerGrid.children[shipIndex].classList.add('ship');
+        })
+    }
+
+    function updateMessage() {
+        message.textContent = 'Click on the computer grid to attack';
+    }
 
     function playerAttack(target, isHit) {
         (isHit) ? computerGrid.children[target].classList.add('hit') : computerGrid.children[target].classList.add('miss');
@@ -50,6 +60,8 @@ export default function displayController(playerGameboard, computerGameboard) {
 
     return {
         init,
+        markPlayerShips,
+        updateMessage,
         playerAttack,
         computerAttack,
         endGame,

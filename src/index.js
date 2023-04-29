@@ -3,14 +3,11 @@ import displayController from './displayController';
 import Gameboard from './Gameboard';
 import Player from './Player';
 
+const playerGrid = document.querySelector('.player-grid');
 const computerGrid = document.querySelector('.computer-grid');
 
 const player = Player();
 const playerGameboard = Gameboard();
-playerGameboard.placeShip(0,0,0,0);
-playerGameboard.placeShip(2,2,2,2);
-playerGameboard.placeShip(5,5,5,5);
-playerGameboard.placeShip(7,7,7,7);
 
 const computer = Player();
 const computerGameboard = Gameboard();
@@ -21,11 +18,36 @@ computerGameboard.placeShip(1,8,1,8);
 
 const display = displayController(playerGameboard, computerGameboard);
 display.init();
-addGridEventListeners();
+addPlayerShipEventListeners();
 let turn = 0;
 
 const restartButton = document.querySelector('.restart');
 restartButton.addEventListener('click', resetGame);
+
+function addPlayerShipEventListeners() {
+    Array.from(playerGrid.children).forEach(square => {
+        square.addEventListener('click', placePlayerShip, {once: true});
+    })
+}
+
+function removePlayerShipEventListeners() {
+    Array.from(playerGrid.children).forEach(square => {
+        square.removeEventListener('click', placePlayerShip, {once: true});
+    })
+}
+
+function placePlayerShip(e) {
+    let index = Array.from(playerGrid.children).indexOf(e.target);
+    let x = index%10;
+    let y = Math.floor(index/10);
+    playerGameboard.placeShip(x, y, x, y);
+    display.markPlayerShips();
+    if(playerGameboard.ships.length >= 4) {
+        removePlayerShipEventListeners();
+        display.updateMessage();
+        addGridEventListeners();
+    }
+}
 
 function addGridEventListeners() {
     Array.from(computerGrid.children).forEach(square => {
@@ -73,11 +95,12 @@ function endGame(winner) {
 }
 
 function resetGame() {
-    playerGameboard.receivedShots = [];
+    playerGameboard.receivedShots.length = 0;
     playerGameboard.ships.forEach(ship => ship.ship.hitCount = 0);
-    computerGameboard.receivedShots = [];
+    playerGameboard.ships.length = 0;
+    computerGameboard.receivedShots.length = 0;
     computerGameboard.ships.forEach(ship => ship.ship.hitCount = 0);
     turn = 0;
     display.resetGame();
-    addGridEventListeners();
+    addPlayerShipEventListeners();
 }
