@@ -6,47 +6,41 @@ const GameboardFactory = () => {
     let receivedShots = [];
     
     function placeShip(startX, startY, endX, endY) {
+        let coordinates = [];
+        let newShip;
         if(startX === endX && startY === endY) {
             // ship takes up 1 space
-            let newShip = Ship(1);
-            ships.push({
-                coordinates: [{x: startX, y: startY}],
-                ship: newShip
-            });
+            let shipLength = 1;
+            newShip = Ship(shipLength);
+            coordinates.push({x: startX, y: startY});
         } else if(startX !== endX && startY === endY) {
             // horizontal ship placement
             let shipLength = endX - startX;
-            let newShip = Ship(shipLength);
-            let coordinates = [];
+            newShip = Ship(shipLength);
             for(let i = 0; i <= shipLength; i++) {
                 coordinates.push({
                     x: startX + i,
                     y: startY
                 })
             }
-            ships.push({
-                coordinates: coordinates,
-                ship: newShip
-            });
         } else if(startX === endX && startY !== endY) {
             // vertical ship placement
             let shipLength = endY - startY;
-            let newShip = Ship(shipLength);
-            let coordinates = [];
+            newShip = Ship(shipLength);
             for(let i = 0; i <= shipLength; i++) {
                 coordinates.push({
                     x: startX,
                     y: startY + i
                 })
             }
-            ships.push({
-                coordinates: coordinates,
-                ship: newShip
-            });
         } else if(startX !== endX && startY !== endY) {
             // invalid (diagonal) ship placement
-            console.log('invalid ship placement!');
+            return;
         }
+        ships.push({
+            coordinates: coordinates,
+            ship: newShip
+        });
         return ships[ships.length-1];
     }
 
@@ -54,9 +48,11 @@ const GameboardFactory = () => {
         receivedShots.push({x, y});
         let isHit = false;
         ships.forEach(ship => {
-            if(ship.x === x && ship.y === y) {
-                ship.ship.hit();
-                isHit = true;
+            for(let i = 0; i < ship.coordinates.length; i++) {
+                if(ship.coordinates[i].x === x && ship.coordinates[i].y === y) {
+                    ship.ship.hit();
+                    isHit = true;
+                }
             }
         })
         return isHit;
