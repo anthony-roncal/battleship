@@ -14,7 +14,7 @@ export default function displayController(playerGameboard, computerGameboard) {
         }
 
         // prompt player to place ships
-        message.textContent = 'Place your ships';
+        message.textContent = 'Select a ship to place';
 
         // mark computer ship locations
         computerGameboard.ships.forEach(ship => {

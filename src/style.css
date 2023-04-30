@@ -33,8 +33,13 @@ body {
 .shipyard {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     min-width: 200px;
+}
+
+.shipyard-label {
+    height: 20px;
+    margin: 0;
 }
 
 .ship {
