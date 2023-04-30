@@ -31,12 +31,6 @@ function addPlayerShipEventListeners() {
     })
 }
 
-function removePlayerShipEventListeners() {
-    Array.from(playerGrid.children).forEach(square => {
-        square.removeEventListener('click', placePlayerShip, {once: true});
-    })
-}
-
 function placePlayerShip(e) {
     let index = Array.from(playerGrid.children).indexOf(e.target);
     let x = index%10;
@@ -48,6 +42,12 @@ function placePlayerShip(e) {
         display.updateMessage();
         addGridEventListeners();
     }
+}
+
+function removePlayerShipEventListeners() {
+    Array.from(playerGrid.children).forEach(square => {
+        square.removeEventListener('click', placePlayerShip, {once: true});
+    })
 }
 
 function addGridEventListeners() {
