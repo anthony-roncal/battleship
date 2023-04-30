@@ -13,9 +13,6 @@ export default function displayController(playerGameboard, computerGameboard) {
             (i < 100) ? playerGrid.appendChild(square) : computerGrid.appendChild(square);
         }
 
-        // prompt player to place ships
-        message.textContent = 'Select a ship to place';
-
         // mark computer ship locations
         computerGameboard.ships.forEach(ship => {
             for(let i = 0; i < ship.coordinates.length; i++) {
@@ -32,8 +29,8 @@ export default function displayController(playerGameboard, computerGameboard) {
         })
     }
 
-    function updateMessage() {
-        message.textContent = 'Click on the computer grid to attack';
+    function updateMessage(displayMessage) {
+        message.textContent = displayMessage;
     }
 
     function playerAttack(target, isHit) {
@@ -46,13 +43,11 @@ export default function displayController(playerGameboard, computerGameboard) {
 
     }
 
-    function endGame(playerWon) {
-        (playerWon) ? message.textContent = "You win!" : message.textContent = "You lose!";
+    function showRestartButton() {
         restartButton.classList.remove('hide');
     }
 
     function resetGame() {
-        message.textContent = '';
         restartButton.classList.add('hide');
         Array.from(playerGrid.children).forEach(child => playerGrid.removeChild(child));
         Array.from(computerGrid.children).forEach(child => computerGrid.removeChild(child));
@@ -65,7 +60,7 @@ export default function displayController(playerGameboard, computerGameboard) {
         updateMessage,
         playerAttack,
         computerAttack,
-        endGame,
+        showRestartButton,
         resetGame
     }
 };

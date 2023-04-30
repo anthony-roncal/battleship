@@ -6,6 +6,12 @@ import Player from './Player';
 const playerGrid = document.querySelector('.player-grid');
 const computerGrid = document.querySelector('.computer-grid');
 
+const messageSelectShip = 'Select a ship to place';
+const messagePlaceShip = 'Select a space to place the ship';
+const messagePlayGame = 'Click on the computer grid to attack';
+const messagePlayerWins = 'You win!';
+const messagePlayerLoses = 'You lose!';
+
 const player = Player();
 const playerGameboard = Gameboard();
 
@@ -19,13 +25,32 @@ computerGameboard.placeShip(7,8,8,8);
 
 const display = displayController(playerGameboard, computerGameboard);
 display.init();
-addPlayerShipEventListeners();
+display.updateMessage(messageSelectShip);
+addComputerGridEventListeners();
 let turn = 0;
 
 const restartButton = document.querySelector('.restart');
 restartButton.addEventListener('click', resetGame);
 
-function addPlayerShipEventListeners() {
+function addShipyardEventListeners() {
+    document.querySelectorAll('.shipyard .ship').forEach(ship => ship.addEventListener('click', selectShip));
+}
+
+function removeShipyardEventListeners() {
+    document.querySelectorAll('.shipyard .ship').forEach(ship => ship.removeEventListener('click', selectShip));
+}
+
+function selectShip(e) {
+    // highlight selected ship
+    console.log(e.target.id);
+    // let player select space on grid to place ship
+    display.updateMessage(messagePlaceShip);
+    addPlayerGridEventListeners();
+    // don't let player select another ship without placing selected ship first
+    removeShipyardEventListeners();
+}
+
+function addPlayerGridEventListeners() {
     Array.from(playerGrid.children).forEach(square => {
         square.addEventListener('click', placePlayerShip, {once: true});
     })
@@ -35,12 +60,16 @@ function placePlayerShip(e) {
     let index = Array.from(playerGrid.children).indexOf(e.target);
     let x = index%10;
     let y = Math.floor(index/10);
-    playerGameboard.placeShip(x, y, x, y);
-    display.markPlayerShips();
-    if(playerGameboard.ships.length >= 4) {
+    // playerGameboard.placeShip(x, y, x, y);
+    // display.markPlayerShips();
+    if(playerGameboard.ships.length < 5) {
+        // if player has more ships to place, let player select another ship
+        addShipyardEventListeners();
+    } else if(playerGameboard.ships.length >= 5) {
+        // if all ships are placed, start game
         removePlayerShipEventListeners();
-        display.updateMessage();
-        addGridEventListeners();
+        display.updateMessage(messagePlayGame);
+        addComputerGridEventListeners();
     }
 }
 
@@ -50,7 +79,7 @@ function removePlayerShipEventListeners() {
     })
 }
 
-function addGridEventListeners() {
+function addComputerGridEventListeners() {
     Array.from(computerGrid.children).forEach(square => {
         square.addEventListener('click', playerAttackListener, {once: true});
     })
@@ -89,7 +118,8 @@ function computerAttack() {
 }
 
 function endGame(winner) {
-    (winner === player) ? display.endGame(true) : display.endGame(false);
+    (winner === player) ? display.updateMessage(messagePlayerWins) : display.updateMessage(messagePlayerLoses);
+    display.showRestartButton();
     Array.from(computerGrid.children).forEach(square => {
         square.removeEventListener('click', playerAttackListener, {once: true});
     })
@@ -103,5 +133,6 @@ function resetGame() {
     computerGameboard.ships.forEach(ship => ship.ship.hitCount = 0);
     turn = 0;
     display.resetGame();
-    addPlayerShipEventListeners();
+    display.updateMessage(messageSelectShip);
+    addShipyardEventListeners();
 }
