@@ -17,11 +17,32 @@ const GameboardFactory = () => {
             // horizontal ship placement
             let shipLength = endX - startX;
             let newShip = Ship(shipLength);
-
+            let coordinates = [];
+            for(let i = 0; i <= shipLength; i++) {
+                coordinates.push({
+                    x: startX + i,
+                    y: startY
+                })
+            }
+            ships.push({
+                coordinates: coordinates,
+                ship: newShip
+            });
         } else if(startX === endX && startY !== endY) {
             // vertical ship placement
             let shipLength = endY - startY;
             let newShip = Ship(shipLength);
+            let coordinates = [];
+            for(let i = 0; i <= shipLength; i++) {
+                coordinates.push({
+                    x: startX,
+                    y: startY + i
+                })
+            }
+            ships.push({
+                coordinates: coordinates,
+                ship: newShip
+            });
         } else if(startX !== endX && startY !== endY) {
             // invalid (diagonal) ship placement
             console.log('invalid ship placement!');

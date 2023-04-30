@@ -28,11 +28,11 @@ body {
 }
 
 .hit {
-    background-color: green;
+    background-color: red;
 }
 
 .miss {
-    background-color: red;
+    background-color: blue;
 }
 
 .restart {
