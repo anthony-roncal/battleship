@@ -26,7 +26,7 @@ computerGameboard.placeShip(7,8,8,8);
 const display = displayController(playerGameboard, computerGameboard);
 display.init();
 display.updateMessage(messageSelectShip);
-addComputerGridEventListeners();
+addShipyardEventListeners();
 let turn = 0;
 
 const restartButton = document.querySelector('.restart');
@@ -42,7 +42,7 @@ function removeShipyardEventListeners() {
 
 function selectShip(e) {
     // highlight selected ship
-    console.log(e.target.id);
+    e.target.classList.add('selected');
     // let player select space on grid to place ship
     display.updateMessage(messagePlaceShip);
     addPlayerGridEventListeners();
@@ -60,11 +60,14 @@ function placePlayerShip(e) {
     let index = Array.from(playerGrid.children).indexOf(e.target);
     let x = index%10;
     let y = Math.floor(index/10);
-    // playerGameboard.placeShip(x, y, x, y);
+    e.target.classList.add('selected');
+    playerGameboard.placeShip(x, y, x, y);
     // display.markPlayerShips();
     if(playerGameboard.ships.length < 5) {
         // if player has more ships to place, let player select another ship
+        display.updateMessage(messageSelectShip);
         addShipyardEventListeners();
+        removePlayerShipEventListeners();
     } else if(playerGameboard.ships.length >= 5) {
         // if all ships are placed, start game
         removePlayerShipEventListeners();

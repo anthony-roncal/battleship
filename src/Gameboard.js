@@ -15,9 +15,9 @@ const GameboardFactory = () => {
             coordinates.push({x: startX, y: startY});
         } else if(startX !== endX && startY === endY) {
             // horizontal ship placement
-            let shipLength = endX - startX;
+            let shipLength = endX - startX + 1;
             newShip = Ship(shipLength);
-            for(let i = 0; i <= shipLength; i++) {
+            for(let i = 0; i < shipLength; i++) {
                 coordinates.push({
                     x: startX + i,
                     y: startY
@@ -25,9 +25,9 @@ const GameboardFactory = () => {
             }
         } else if(startX === endX && startY !== endY) {
             // vertical ship placement
-            let shipLength = endY - startY;
+            let shipLength = endY - startY + 1;
             newShip = Ship(shipLength);
-            for(let i = 0; i <= shipLength; i++) {
+            for(let i = 0; i < shipLength; i++) {
                 coordinates.push({
                     x: startX,
                     y: startY + i
@@ -52,6 +52,7 @@ const GameboardFactory = () => {
                 if(ship.coordinates[i].x === x && ship.coordinates[i].y === y) {
                     ship.ship.hit();
                     isHit = true;
+                    console.log(ship);
                 }
             }
         })

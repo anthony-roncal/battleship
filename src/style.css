@@ -87,3 +87,8 @@ body {
 #destroyer {
     width: 80px;
 }
+
+.selected {
+    border: 2px solid darkgreen;
+    background-color: green;
+}
