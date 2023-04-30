@@ -8,8 +8,16 @@
   <body>
     <h1>Battleship</h1>
     <p class="message"></p>
-    <button class="restart">Play again</button>
+    <button class="restart hide">Play again</button>
     <div class="container">
+      <div class="shipyard">
+        <h3>Player Shipyard</h3>
+        <div id="carrier" class="player-ship" draggable="true"></div>
+        <div id="battleship" class="player-ship" draggable="true"></div>
+        <div id="cruiser" class="player-ship" draggable="true"></div>
+        <div id="submarine" class="player-ship" draggable="true"></div>
+        <div id="destroyer" class="player-ship" draggable="true"></div>
+      </div>
       <div>
         <h3>Player</h3>
         <div class="player-grid"></div>

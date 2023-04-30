@@ -49,12 +49,12 @@ export default function displayController(playerGameboard, computerGameboard) {
 
     function endGame(playerWon) {
         (playerWon) ? message.textContent = "You win!" : message.textContent = "You lose!";
-        restartButton.style.display = 'block';
+        restartButton.classList.remove('hide');
     }
 
     function resetGame() {
         message.textContent = '';
-        restartButton.style.display = 'none';
+        restartButton.classList.add('hide');
         Array.from(playerGrid.children).forEach(child => playerGrid.removeChild(child));
         Array.from(computerGrid.children).forEach(child => computerGrid.removeChild(child));
         init();

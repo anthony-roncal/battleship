@@ -23,6 +23,20 @@ body {
     flex-wrap: wrap;
 }
 
+.square {
+    width: 40px; 
+    height: 40px; 
+    border: solid 1px black; 
+    box-sizing: border-box;
+}
+
+.shipyard {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    min-width: 200px;
+}
+
 .ship {
     background-color: grey;
 }
@@ -36,8 +50,36 @@ body {
 }
 
 .restart {
-    display: none;
     font-size: 20px;
     padding: 10px 25px;
     border-radius: 25px;
+}
+
+.hide {
+    display: none;
+}
+
+#carrier,
+#battleship,
+#cruiser,
+#submarine,
+#destroyer {
+    height: 40px;
+    width: 200px;
+    border: 2px solid grey;
+    background-color: darkgrey;
+    box-sizing: border-box;
+}
+
+#battleship {
+    width: 160px;
+}
+
+#cruiser,
+#submarine {
+    width: 120px;
+}
+
+#destroyer {
+    width: 80px;
 }
