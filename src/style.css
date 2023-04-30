@@ -38,7 +38,8 @@ body {
 }
 
 .ship {
-    background-color: grey;
+    border: 2px solid grey;
+    background-color: darkgrey;
 }
 
 .hit {
@@ -66,8 +67,6 @@ body {
 #destroyer {
     height: 40px;
     width: 200px;
-    border: 2px solid grey;
-    background-color: darkgrey;
     box-sizing: border-box;
 }
 

@@ -8,7 +8,6 @@ export default function displayController(playerGameboard, computerGameboard) {
         // init grids
         for (let i = 0; i < 200; i++) {
             let square = document.createElement('div');
-            square.setAttribute('style', `width: 40px; height: 40px; border: solid 1px black; box-sizing: border-box;`);
             square.classList.add("square");
             (i < 100) ? square.textContent = i : square.textContent = (i - 100); // temp
             (i < 100) ? playerGrid.appendChild(square) : computerGrid.appendChild(square);
