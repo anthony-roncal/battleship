@@ -19,14 +19,14 @@ export default function displayController(playerGameboard, computerGameboard) {
 
         // mark computer ship locations
         computerGameboard.ships.forEach(ship => {
-            let shipIndex = (ship.y * 10) + ship.x;
+            let shipIndex = (ship.coordinates[0].y * 10) + ship.coordinates[0].x;
             computerGrid.children[shipIndex].classList.add('ship');
         })
     };
 
     function markPlayerShips() {
         playerGameboard.ships.forEach(ship => {
-            let shipIndex = (ship.y * 10) + ship.x;
+            let shipIndex = (ship.coordinates[0].y * 10) + ship.coordinates[0].x;
             playerGrid.children[shipIndex].classList.add('ship');
         })
     }

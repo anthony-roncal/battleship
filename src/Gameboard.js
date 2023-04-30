@@ -7,12 +7,24 @@ const GameboardFactory = () => {
     
     function placeShip(startX, startY, endX, endY) {
         if(startX === endX && startY === endY) {
+            // ship takes up 1 space
             let newShip = Ship(1);
             ships.push({
-                x: startX,
-                y: startY,
+                coordinates: [{x: startX, y: startY}],
                 ship: newShip
             });
+        } else if(startX !== endX && startY === endY) {
+            // horizontal ship placement
+            let shipLength = endX - startX;
+            let newShip = Ship(shipLength);
+
+        } else if(startX === endX && startY !== endY) {
+            // vertical ship placement
+            let shipLength = endY - startY;
+            let newShip = Ship(shipLength);
+        } else if(startX !== endX && startY !== endY) {
+            // invalid (diagonal) ship placement
+            console.log('invalid ship placement!');
         }
         return ships[ships.length-1];
     }
