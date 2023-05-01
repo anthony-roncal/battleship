@@ -60,7 +60,7 @@ function selectShip(e) {
     selectedShip = e.target.id;
     // let player select space on grid to place ship
     display.updateMessage(messagePlaceShip + e.target.id);
-    addPlayerGridEventListeners();
+    addPlayerGridEventListeners(shipLengths[selectedShip]);
     // don't let player select another ship without placing selected ship first
     removeShipyardEventListeners();
 }
@@ -70,17 +70,30 @@ function rotateShip(e) {
     let ship = e.target.nextElementSibling;
     ship.classList.toggle('rotate');
     orientationHorizontal = !orientationHorizontal;
+    removePlayerGridEventListeners();
+    addPlayerGridEventListeners(shipLengths[selectedShip]);
 }
 
-function addPlayerGridEventListeners() {
+function addPlayerGridEventListeners(shipLength) {
     Array.from(playerGrid.children).forEach(square => {
-        square.addEventListener('click', placePlayerShip, {once: true});
+        let index = Array.from(playerGrid.children).indexOf(square);
+        if(orientationHorizontal && index%10 <= 10-shipLength) {
+            square.addEventListener('click', placePlayerShip, {once: true});
+            square.addEventListener('mouseover', hoverPlayerShip);
+            square.addEventListener('mouseout', mouseoutPlayerShip);
+        } else if (!orientationHorizontal && Math.floor(index/10) <= 10-shipLength) {
+            square.addEventListener('click', placePlayerShip, {once: true});
+            square.addEventListener('mouseover', hoverPlayerShip);
+            square.addEventListener('mouseout', mouseoutPlayerShip);
+        }
     })
+}
+
+function removePlayerGridEventListeners() {
     Array.from(playerGrid.children).forEach(square => {
-        square.addEventListener('mouseover', hoverPlayerShip);
-    })
-    Array.from(playerGrid.children).forEach(square => {
-        square.addEventListener('mouseout', mouseoutPlayerShip);
+        square.removeEventListener('click', placePlayerShip, {once: true});
+        square.removeEventListener('mouseover', hoverPlayerShip);
+        square.removeEventListener('mouseout', mouseoutPlayerShip);
     })
 }
 
