@@ -77,20 +77,31 @@ function rotateShip(e) {
 function addPlayerGridEventListeners(shipLength) {
     Array.from(playerGrid.children).forEach(square => {
         let index = Array.from(playerGrid.children).indexOf(square);
-        if(orientationHorizontal && index%10 <= 10-shipLength) {
-            square.addEventListener('click', placePlayerShip, {once: true});
-            square.addEventListener('mouseover', hoverPlayerShip);
-            square.addEventListener('mouseout', mouseoutPlayerShip);
-        } else if (!orientationHorizontal && Math.floor(index/10) <= 10-shipLength) {
-            square.addEventListener('click', placePlayerShip, {once: true});
-            square.addEventListener('mouseover', hoverPlayerShip);
-            square.addEventListener('mouseout', mouseoutPlayerShip);
+        if((orientationHorizontal && index%10 <= 10-shipLength)
+        || (!orientationHorizontal && Math.floor(index/10) <= 10-shipLength)) {
+            square.classList.add('valid');
         }
+    })
+    document.querySelectorAll('.square.selected').forEach(square => {
+        let index = Array.from(playerGrid.children).indexOf(square);
+        for(let i = 0; i < shipLength; i++) {
+            if (orientationHorizontal) {
+                Array.from(playerGrid.children)[index - i].classList.remove('valid')
+            } else if (!orientationHorizontal && index - (i*10) > 0) {
+                Array.from(playerGrid.children)[index - (i*10)].classList.remove('valid');
+            }
+        }
+    })
+    document.querySelectorAll('.valid').forEach(square => {
+        square.addEventListener('click', placePlayerShip, {once: true});
+        square.addEventListener('mouseover', hoverPlayerShip);
+        square.addEventListener('mouseout', mouseoutPlayerShip);
     })
 }
 
 function removePlayerGridEventListeners() {
     Array.from(playerGrid.children).forEach(square => {
+        square.classList.remove('valid');
         square.removeEventListener('click', placePlayerShip, {once: true});
         square.removeEventListener('mouseover', hoverPlayerShip);
         square.removeEventListener('mouseout', mouseoutPlayerShip);
@@ -123,6 +134,7 @@ function placePlayerShip(e) {
     let y = Math.floor(index/10);
     for(let i = 0; i < shipLengths[selectedShip]; i++) {
         target.classList.add('selected');
+        target.classList.remove('hover');
         (orientationHorizontal) ? target = target.nextElementSibling : target = spaces[spaces.indexOf(target) + 10];
     }
     (orientationHorizontal) ? 
