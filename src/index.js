@@ -27,11 +27,7 @@ const playerGameboard = Gameboard();
 
 const computer = Player();
 const computerGameboard = Gameboard();
-computerGameboard.placeShip(8,1,8,3);
-computerGameboard.placeShip(3,3,6,3);
-computerGameboard.placeShip(3,6,5,6);
-computerGameboard.placeShip(1,4,1,8);
-computerGameboard.placeShip(7,8,8,8);
+randomizeComputerShips();
 
 const display = displayController(playerGameboard, computerGameboard);
 display.init();
@@ -41,6 +37,25 @@ let turn = 0;
 
 const restartButton = document.querySelector('.restart');
 restartButton.addEventListener('click', resetGame);
+
+function randomizeComputerShips() {
+    let ships = [5, 4, 3, 3, 2];
+    let x = 0;
+    let y = 0;
+    while(ships.length > 0) {
+        let isHorizontal = Math.floor(Math.random()*2) === 0;
+        let currentShipLength = ships.shift();
+        if (isHorizontal) {
+            x = Math.floor(Math.random() * (10 - currentShipLength));
+            y = Math.floor(Math.random() * 10);
+            computerGameboard.placeShip(x, y, x + currentShipLength - 1, y);
+        } else {
+             y = Math.floor(Math.random() * (10 - currentShipLength));
+             x = Math.floor(Math.random() * 10);
+             computerGameboard.placeShip(x, y, x, y + currentShipLength - 1);
+        }
+    }
+}
 
 function addShipyardEventListeners() {
     document.querySelectorAll('.shipyard .ship').forEach(ship => ship.addEventListener('click', selectShip, {once: true}));
