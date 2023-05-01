@@ -144,12 +144,10 @@ function placePlayerShip(e) {
     selectedShip.previousElementSibling.classList.add('hide');
     selectedShip.classList.remove('selected');
     if(playerGameboard.ships.length < 5) {
-        // if player has more ships to place, let player select another ship
         display.updateMessage(messageSelectShip);
         addShipyardEventListeners();
         removePlayerShipEventListeners();
     } else if(playerGameboard.ships.length >= 5) {
-        // if all ships are placed, start game
         removePlayerShipEventListeners();
         display.updateMessage(messagePlayGame);
         addComputerGridEventListeners();
@@ -174,7 +172,6 @@ function addComputerGridEventListeners() {
 }
 
 function playerAttackListener(e) {
-    // only attack on player's turn
     if(turn % 2 === 0)
         playerAttack(e);
 }

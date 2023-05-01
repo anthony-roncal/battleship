@@ -7,15 +7,12 @@ export default function displayController(playerGameboard, computerGameboard) {
     const shipyard = document.querySelector('.shipyard');
 
     function init() {
-        // init grids
         for (let i = 0; i < 200; i++) {
             let square = document.createElement('div');
             square.classList.add("square");
-            (i < 100) ? square.textContent = i : square.textContent = (i - 100); // temp
             (i < 100) ? playerGrid.appendChild(square) : computerGrid.appendChild(square);
         }
 
-        // mark computer ship locations
         computerGameboard.ships.forEach(ship => {
             for(let i = 0; i < ship.coordinates.length; i++) {
                 let shipIndex = (ship.coordinates[i].y * 10) + ship.coordinates[i].x;
