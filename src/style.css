@@ -2,13 +2,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
 }
 
-.container {
+.grid-container {
     display: flex;
     gap: 100px;
+    margin-bottom: 50px;
 }
 
 .message {
@@ -30,11 +31,25 @@ body {
     box-sizing: border-box;
 }
 
-.shipyard {
+.shipyard,
+.shipyard-labels {
+    display: flex;
+    gap: 20px;
+}
+
+.shipyard-labels > p {
+    min-width: 210px;
+    text-align: center;
+}
+
+.shipyard > div {
+    min-width: 210px;
+    min-height: 220px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    min-width: 200px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 .shipyard-label {
@@ -42,13 +57,25 @@ body {
     margin: 0;
 }
 
+.rotateBtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-image: url('../rotate-right-variant.svg');
+    transform: rotate(180deg);
+    width: 25px;
+    height: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
 .ship {
     border: 2px solid grey;
     background-color: darkgrey;
 }
 
-.hit {
-    background-color: red;
+.hit{
+    background-color: red !important;
 }
 
 .miss {
@@ -91,4 +118,21 @@ body {
 .selected {
     border: 2px solid darkgreen;
     background-color: green;
+}
+
+.placed {
+    opacity: 50%;
+}
+
+.hover {
+    border: 2px solid darkgreen;
+}
+
+.rotate {
+    transform: rotate(90deg);
+}
+
+.rotate-back {
+    background-image: url('../rotate-left-variant.svg');
+    transform: rotate(90deg);
 }

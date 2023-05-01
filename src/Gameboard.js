@@ -52,7 +52,6 @@ const GameboardFactory = () => {
                 if(ship.coordinates[i].x === x && ship.coordinates[i].y === y) {
                     ship.ship.hit();
                     isHit = true;
-                    console.log(ship);
                 }
             }
         })
