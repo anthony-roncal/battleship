@@ -160,6 +160,7 @@ function placePlayerShip(e) {
 
 function removePlayerShipEventListeners() {
     Array.from(playerGrid.children).forEach(square => {
+        square.classList.remove('valid');
         square.removeEventListener('click', placePlayerShip, {once: true});
         square.removeEventListener('mouseover', hoverPlayerShip);
         square.removeEventListener('mouseout', mouseoutPlayerShip);
