@@ -14,6 +14,7 @@ body {
 
 .message {
     font-size: 26px;
+    margin-top: 0;
 }
 
 .player-grid,
@@ -67,6 +68,11 @@ body {
     height: 25px;
     border: 1px solid;
     border-radius: 5px;
+}
+
+.rotate-back {
+    background-image: url('../rotate-left-variant.svg');
+    transform: rotate(90deg);
 }
 
 .ship {
@@ -132,7 +138,6 @@ body {
     transform: rotate(90deg);
 }
 
-.rotate-back {
-    background-image: url('../rotate-left-variant.svg');
-    transform: rotate(90deg);
+.valid {
+    background-color: lightgrey;
 }

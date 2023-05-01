@@ -19,8 +19,8 @@ const shipLengths = {
     submarine: 3,
     destroyer: 2
 }
-let selectedShip;
-let orientationHorizontal = true;
+let selectedShipId;
+let isHorizontal = true;
 
 const player = Player();
 const playerGameboard = Gameboard();
@@ -51,44 +51,43 @@ function removeShipyardEventListeners() {
 }
 
 function selectShip(e) {
-    // highlight selected ship
     e.target.classList.add('selected');
-    orientationHorizontal = true;
+    isHorizontal = true;
     let rotateBtn = e.target.previousElementSibling;
     rotateBtn.classList.remove('hide');
     rotateBtn.addEventListener('click', rotateShip);
-    selectedShip = e.target.id;
-    // let player select space on grid to place ship
-    display.updateMessage(messagePlaceShip + e.target.id);
-    addPlayerGridEventListeners(shipLengths[selectedShip]);
-    // don't let player select another ship without placing selected ship first
+    selectedShipId = e.target.id;
+    display.updateMessage(messagePlaceShip + selectedShipId);
     removeShipyardEventListeners();
+    removePlayerGridEventListeners();
+    addPlayerGridEventListeners(shipLengths[selectedShipId]);
 }
 
 function rotateShip(e) {
     e.target.classList.toggle('rotate-back');
     let ship = e.target.nextElementSibling;
     ship.classList.toggle('rotate');
-    orientationHorizontal = !orientationHorizontal;
+    isHorizontal = !isHorizontal;
     removePlayerGridEventListeners();
-    addPlayerGridEventListeners(shipLengths[selectedShip]);
+    addPlayerGridEventListeners(shipLengths[selectedShipId]);
 }
 
 function addPlayerGridEventListeners(shipLength) {
-    Array.from(playerGrid.children).forEach(square => {
-        let index = Array.from(playerGrid.children).indexOf(square);
-        if((orientationHorizontal && index%10 <= 10-shipLength)
-        || (!orientationHorizontal && Math.floor(index/10) <= 10-shipLength)) {
+    const playerGridArray = Array.from(playerGrid.children);
+    playerGridArray.forEach(square => {
+        let index = playerGridArray.indexOf(square);
+        if((isHorizontal && index%10 <= 10-shipLength)
+        || (!isHorizontal && Math.floor(index/10) <= 10-shipLength)) {
             square.classList.add('valid');
         }
     })
     document.querySelectorAll('.square.selected').forEach(square => {
-        let index = Array.from(playerGrid.children).indexOf(square);
+        let index = playerGridArray.indexOf(square);
         for(let i = 0; i < shipLength; i++) {
-            if (orientationHorizontal) {
-                Array.from(playerGrid.children)[index - i].classList.remove('valid')
-            } else if (!orientationHorizontal && index - (i*10) > 0) {
-                Array.from(playerGrid.children)[index - (i*10)].classList.remove('valid');
+            if (isHorizontal) {
+                playerGridArray[index - i].classList.remove('valid')
+            } else if (!isHorizontal && index - (i*10) > 0) {
+                playerGridArray[index - (i*10)].classList.remove('valid');
             }
         }
     })
@@ -110,39 +109,40 @@ function removePlayerGridEventListeners() {
 
 function hoverPlayerShip(e) {
     let target = e.target;
-    let spaces = Array.from(target.parentNode.children);
-    for(let i = 0; i < shipLengths[selectedShip]; i++) {
+    const playerGridArray = Array.from(playerGrid.children);
+    for(let i = 0; i < shipLengths[selectedShipId]; i++) {
         target.classList.add('hover');
-        (orientationHorizontal) ? target = target.nextElementSibling : target = spaces[spaces.indexOf(target) + 10];
+        (isHorizontal) ? target = target.nextElementSibling : target = playerGridArray[playerGridArray.indexOf(target) + 10];
     }
 }
 
 function mouseoutPlayerShip(e) {
     let target = e.target;
-    let spaces = Array.from(target.parentNode.children);
-    for(let i = 0; i < shipLengths[selectedShip]; i++) {
+    const playerGridArray = Array.from(playerGrid.children);
+    for(let i = 0; i < shipLengths[selectedShipId]; i++) {
         target.classList.remove('hover');
-        (orientationHorizontal) ? target = target.nextElementSibling : target = spaces[spaces.indexOf(target) + 10];
+        (isHorizontal) ? target = target.nextElementSibling : target = playerGridArray[playerGridArray.indexOf(target) + 10];
     }
 }
 
 function placePlayerShip(e) {
     let target = e.target;
-    let spaces = Array.from(target.parentNode.children);
-    let index = Array.from(playerGrid.children).indexOf(target);
+    const playerGridArray = Array.from(playerGrid.children);
+    let index = playerGridArray.indexOf(target);
     let x = index%10;
     let y = Math.floor(index/10);
-    for(let i = 0; i < shipLengths[selectedShip]; i++) {
+    for(let i = 0; i < shipLengths[selectedShipId]; i++) {
         target.classList.add('selected');
         target.classList.remove('hover');
-        (orientationHorizontal) ? target = target.nextElementSibling : target = spaces[spaces.indexOf(target) + 10];
+        (isHorizontal) ? target = target.nextElementSibling : target = playerGridArray[playerGridArray.indexOf(target) + 10];
     }
-    (orientationHorizontal) ? 
-        playerGameboard.placeShip(x, y, x + shipLengths[selectedShip] - 1, y) : 
-        playerGameboard.placeShip(x, y, x, y + shipLengths[selectedShip] - 1);
-    document.querySelector('.shipyard .selected').classList.add('placed');
-    document.querySelector('.shipyard .selected').previousElementSibling.classList.add('hide');
-    document.querySelector('.shipyard .selected').classList.remove('selected');
+    (isHorizontal) ? 
+        playerGameboard.placeShip(x, y, x + shipLengths[selectedShipId] - 1, y) : 
+        playerGameboard.placeShip(x, y, x, y + shipLengths[selectedShipId] - 1);
+    let selectedShip = document.querySelector('.shipyard .selected');    
+    selectedShip.classList.add('placed');
+    selectedShip.previousElementSibling.classList.add('hide');
+    selectedShip.classList.remove('selected');
     if(playerGameboard.ships.length < 5) {
         // if player has more ships to place, let player select another ship
         display.updateMessage(messageSelectShip);
@@ -161,11 +161,7 @@ function placePlayerShip(e) {
 function removePlayerShipEventListeners() {
     Array.from(playerGrid.children).forEach(square => {
         square.removeEventListener('click', placePlayerShip, {once: true});
-    })
-    Array.from(playerGrid.children).forEach(square => {
         square.removeEventListener('mouseover', hoverPlayerShip);
-    })
-    Array.from(playerGrid.children).forEach(square => {
         square.removeEventListener('mouseout', mouseoutPlayerShip);
     })
 }
