@@ -58,11 +58,6 @@ function selectShip(e) {
     rotateBtn.classList.remove('hide');
     rotateBtn.addEventListener('click', rotateShip);
     selectedShip = e.target.id;
-    // let player rotate ship if desired
-    /* 
-        DO THIS NEXT 
-        REDESIGN SHIPYARD IN INDEX.HTML TO ALLOW ROTATING SHIPS
-    */
     // let player select space on grid to place ship
     display.updateMessage(messagePlaceShip + e.target.id);
     addPlayerGridEventListeners();
@@ -123,7 +118,6 @@ function placePlayerShip(e) {
     document.querySelector('.shipyard .selected').classList.add('placed');
     document.querySelector('.shipyard .selected').previousElementSibling.classList.add('hide');
     document.querySelector('.shipyard .selected').classList.remove('selected');
-    // display.markPlayerShips();
     if(playerGameboard.ships.length < 5) {
         // if player has more ships to place, let player select another ship
         display.updateMessage(messageSelectShip);
@@ -134,6 +128,8 @@ function placePlayerShip(e) {
         removePlayerShipEventListeners();
         display.updateMessage(messagePlayGame);
         addComputerGridEventListeners();
+        document.querySelectorAll('.shipyard .ship').forEach(ship => ship.classList.remove('placed'));
+        display.toggleHideShipyard();
     }
 }
 
@@ -204,5 +200,6 @@ function resetGame() {
     turn = 0;
     display.resetGame();
     display.updateMessage(messageSelectShip);
+    display.toggleHideShipyard();
     addShipyardEventListeners();
 }

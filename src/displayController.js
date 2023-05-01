@@ -3,6 +3,8 @@ export default function displayController(playerGameboard, computerGameboard) {
     const computerGrid = document.querySelector('.computer-grid');
     const message = document.querySelector('.message');
     const restartButton = document.querySelector('.restart');
+    const shipyardLabels = document.querySelector('.shipyard-labels');
+    const shipyard = document.querySelector('.shipyard');
 
     function init() {
         // init grids
@@ -22,15 +24,13 @@ export default function displayController(playerGameboard, computerGameboard) {
         })
     };
 
-    function markPlayerShips() {
-        playerGameboard.ships.forEach(ship => {
-            let shipIndex = (ship.coordinates[0].y * 10) + ship.coordinates[0].x;
-            playerGrid.children[shipIndex].classList.add('ship');
-        })
-    }
-
     function updateMessage(displayMessage) {
         message.textContent = displayMessage;
+    }
+    
+    function toggleHideShipyard() {
+        shipyardLabels.classList.toggle('hide');
+        shipyard.classList.toggle('hide');
     }
 
     function playerAttack(target, isHit) {
@@ -56,8 +56,8 @@ export default function displayController(playerGameboard, computerGameboard) {
 
     return {
         init,
-        markPlayerShips,
         updateMessage,
+        toggleHideShipyard,
         playerAttack,
         computerAttack,
         showRestartButton,
