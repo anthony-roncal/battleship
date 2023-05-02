@@ -6,12 +6,6 @@ import Player from './Player';
 const playerGrid = document.querySelector('.player-grid');
 const computerGrid = document.querySelector('.computer-grid');
 
-const messageSelectShip = 'Select a ship to place';
-const messagePlaceShip = 'Select a starting space to place your ';
-const messagePlayGame = 'Click on the computer grid to attack';
-const messagePlayerWins = 'You win!';
-const messagePlayerLoses = 'You lose!';
-
 const shipLengths = {
     carrier: 5,
     battleship: 4,
@@ -31,7 +25,7 @@ randomizeComputerShips();
 
 const display = displayController(playerGameboard, computerGameboard);
 display.init();
-display.updateMessage(messageSelectShip);
+display.updateMessage('messageSelectShip');
 addShipyardEventListeners();
 let turn = 0;
 
@@ -74,7 +68,10 @@ function randomizeComputerShips() {
 }
 
 function addShipyardEventListeners() {
-    document.querySelectorAll('.shipyard .ship').forEach(ship => ship.addEventListener('click', selectShip, {once: true}));
+    document.querySelectorAll('.shipyard .ship').forEach(ship => {
+        if(!ship.classList.contains('placed'))
+            ship.addEventListener('click', selectShip);
+    });
 }
 
 function removeShipyardEventListeners() {
@@ -82,22 +79,19 @@ function removeShipyardEventListeners() {
 }
 
 function selectShip(e) {
-    e.target.classList.add('selected');
+    display.selectShip(e.target);
     isHorizontal = true;
     let rotateBtn = e.target.previousElementSibling;
-    rotateBtn.classList.remove('hide');
     rotateBtn.addEventListener('click', rotateShip);
     selectedShipId = e.target.id;
-    display.updateMessage(messagePlaceShip + selectedShipId);
+    display.updateMessage('messagePlaceShip');
     removeShipyardEventListeners();
     removePlayerGridEventListeners();
     addPlayerGridEventListeners(shipLengths[selectedShipId]);
 }
 
 function rotateShip(e) {
-    e.target.classList.toggle('rotateBtn-vertical');
-    let ship = e.target.nextElementSibling;
-    ship.classList.toggle('rotate');
+    display.rotateShip(e.target);
     isHorizontal = !isHorizontal;
     removePlayerGridEventListeners();
     addPlayerGridEventListeners(shipLengths[selectedShipId]);
@@ -116,44 +110,34 @@ function addPlayerGridEventListeners(shipLength) {
         let index = playerGridArray.indexOf(square);
         for(let i = 0; i < shipLength; i++) {
             if (isHorizontal) {
-                playerGridArray[index - i].classList.remove('valid')
+                playerGridArray[index - i].classList.remove('valid');
             } else if (!isHorizontal && index - (i*10) > 0) {
                 playerGridArray[index - (i*10)].classList.remove('valid');
             }
         }
     })
     document.querySelectorAll('.valid').forEach(square => {
-        square.addEventListener('click', placePlayerShip, {once: true});
         square.addEventListener('mouseover', hoverPlayerShip);
         square.addEventListener('mouseout', mouseoutPlayerShip);
+        square.addEventListener('click', placePlayerShip, {once: true});
     })
 }
 
 function removePlayerGridEventListeners() {
     Array.from(playerGrid.children).forEach(square => {
         square.classList.remove('valid');
-        square.removeEventListener('click', placePlayerShip, {once: true});
         square.removeEventListener('mouseover', hoverPlayerShip);
         square.removeEventListener('mouseout', mouseoutPlayerShip);
+        square.removeEventListener('click', placePlayerShip, {once: true});
     })
 }
 
 function hoverPlayerShip(e) {
-    let target = e.target;
-    const playerGridArray = Array.from(playerGrid.children);
-    for(let i = 0; i < shipLengths[selectedShipId]; i++) {
-        target.classList.add('hover');
-        (isHorizontal) ? target = target.nextElementSibling : target = playerGridArray[playerGridArray.indexOf(target) + 10];
-    }
+    display.hoverPlayerShip(e.target, shipLengths[selectedShipId], isHorizontal);
 }
 
 function mouseoutPlayerShip(e) {
-    let target = e.target;
-    const playerGridArray = Array.from(playerGrid.children);
-    for(let i = 0; i < shipLengths[selectedShipId]; i++) {
-        target.classList.remove('hover');
-        (isHorizontal) ? target = target.nextElementSibling : target = playerGridArray[playerGridArray.indexOf(target) + 10];
-    }
+    display.mouseoutPlayerShip(e.target, shipLengths[selectedShipId], isHorizontal);
 }
 
 function placePlayerShip(e) {
@@ -162,29 +146,19 @@ function placePlayerShip(e) {
     let index = playerGridArray.indexOf(target);
     let x = index%10;
     let y = Math.floor(index/10);
-    for(let i = 0; i < shipLengths[selectedShipId]; i++) {
-        target.classList.add('selected');
-        target.classList.remove('hover');
-        (isHorizontal) ? target = target.nextElementSibling : target = playerGridArray[playerGridArray.indexOf(target) + 10];
-    }
+    
+    removePlayerShipEventListeners();
     (isHorizontal) ? 
         playerGameboard.placeShip(x, y, x + shipLengths[selectedShipId] - 1, y) : 
         playerGameboard.placeShip(x, y, x, y + shipLengths[selectedShipId] - 1);
-    let selectedShip = document.querySelector('.shipyard .selected');    
-    selectedShip.classList.add('placed');
-    selectedShip.previousElementSibling.classList.add('hide');
-    selectedShip.classList.remove('selected');
     if(playerGameboard.ships.length < 5) {
-        display.updateMessage(messageSelectShip);
+        display.updateMessage('messageSelectShip');
         addShipyardEventListeners();
-        removePlayerShipEventListeners();
     } else if(playerGameboard.ships.length >= 5) {
-        removePlayerShipEventListeners();
-        display.updateMessage(messagePlayGame);
+        display.updateMessage('messagePlayGame');
         addComputerGridEventListeners();
-        document.querySelectorAll('.shipyard .ship').forEach(ship => ship.classList.remove('placed'));
-        display.toggleHideShipyard();
     }
+    display.placePlayerShip(target, shipLengths[selectedShipId], isHorizontal, playerGameboard.ships.length);
 }
 
 function removePlayerShipEventListeners() {
@@ -197,10 +171,7 @@ function removePlayerShipEventListeners() {
 }
 
 function addComputerGridEventListeners() {
-    Array.from(computerGrid.children).forEach(square => {
-        console.log(square);
-        square.addEventListener('click', playerAttackListener, {once: true});
-    })
+    Array.from(computerGrid.children).forEach(square => square.addEventListener('click', playerAttackListener, {once: true}));
 }
 
 function playerAttackListener(e) {
@@ -235,8 +206,7 @@ function computerAttack() {
 }
 
 function endGame(winner) {
-    (winner === player) ? display.updateMessage(messagePlayerWins) : display.updateMessage(messagePlayerLoses);
-    display.showRestartButton();
+    (winner === player) ? display.endGame('messagePlayerWins') : display.endGame('messagePlayerLoses');
     Array.from(computerGrid.children).forEach(square => {
         square.removeEventListener('click', playerAttackListener, {once: true});
     })
@@ -248,9 +218,10 @@ function resetGame() {
     playerGameboard.ships.length = 0;
     computerGameboard.receivedShots.length = 0;
     computerGameboard.ships.forEach(ship => ship.ship.hitCount = 0);
+    computerGameboard.ships.length = 0;
+    randomizeComputerShips();
     turn = 0;
     display.resetGame();
-    display.updateMessage(messageSelectShip);
-    display.toggleHideShipyard();
+    display.updateMessage('messageSelectShip');
     addShipyardEventListeners();
 }
