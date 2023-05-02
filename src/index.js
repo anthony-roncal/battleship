@@ -42,18 +42,34 @@ function randomizeComputerShips() {
     let ships = [5, 4, 3, 3, 2];
     let x = 0;
     let y = 0;
+    let shipSpaces = [];
     while(ships.length > 0) {
         let isHorizontal = Math.floor(Math.random()*2) === 0;
-        let currentShipLength = ships.shift();
-        if (isHorizontal) {
-            x = Math.floor(Math.random() * (10 - currentShipLength));
-            y = Math.floor(Math.random() * 10);
-            computerGameboard.placeShip(x, y, x + currentShipLength - 1, y);
-        } else {
-             y = Math.floor(Math.random() * (10 - currentShipLength));
-             x = Math.floor(Math.random() * 10);
-             computerGameboard.placeShip(x, y, x, y + currentShipLength - 1);
+        let shipLength = ships.shift();
+        let validCoordsFound = false;
+        while(!validCoordsFound) {
+            if (isHorizontal) {
+                x = Math.floor(Math.random() * (10 - shipLength));
+                y = Math.floor(Math.random() * 10);
+            } else {
+                y = Math.floor(Math.random() * (10 - shipLength));
+                x = Math.floor(Math.random() * 10);
+            }
+            let index = y*10 + x;
+            for(let i = 0; i < shipLength; i++) {
+                if((isHorizontal && shipSpaces.includes(index + i)) || (!isHorizontal && shipSpaces.includes(index + i*10))) {
+                    validCoordsFound = false;
+                    break;
+                } else {
+                    validCoordsFound = true;
+                }
+            }
         }
+        let index = y*10 + x;
+        for(let i = 0; i < shipLength; i++) {
+            (isHorizontal) ? shipSpaces.push(index + i) : shipSpaces.push(index + i*10);
+        }
+        (isHorizontal) ? computerGameboard.placeShip(x, y, x + shipLength - 1, y) : computerGameboard.placeShip(x, y, x, y + shipLength - 1);
     }
 }
 
@@ -79,7 +95,7 @@ function selectShip(e) {
 }
 
 function rotateShip(e) {
-    e.target.classList.toggle('rotate-back');
+    e.target.classList.toggle('rotateBtn-vertical');
     let ship = e.target.nextElementSibling;
     ship.classList.toggle('rotate');
     isHorizontal = !isHorizontal;
@@ -182,6 +198,7 @@ function removePlayerShipEventListeners() {
 
 function addComputerGridEventListeners() {
     Array.from(computerGrid.children).forEach(square => {
+        console.log(square);
         square.addEventListener('click', playerAttackListener, {once: true});
     })
 }

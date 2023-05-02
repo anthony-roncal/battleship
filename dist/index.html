@@ -8,30 +8,34 @@
   <body>
     <h1>Battleship</h1>
     <p class="message"></p>
+    <div class="shipyard">
+      <div>
+        <button class="rotateBtn-horizontal hide"></button>
+        <div id="carrier" class="ship"></div>
+      </div>
+      <div>
+        <button class="rotateBtn-horizontal hide"></button>
+        <div id="battleship" class="ship"></div>
+      </div>
+      <div>
+        <button class="rotateBtn-horizontal hide"></button>
+        <div id="cruiser" class="ship"></div>
+      </div>
+      <div>
+        <button class="rotateBtn-horizontal hide"></button>
+        <div id="submarine" class="ship"></div>
+      </div>
+      <div>
+        <button class="rotateBtn-horizontal hide"></button>
+        <div id="destroyer" class="ship"></div>
+      </div>
+    </div>
     <div class="shipyard-labels">
       <p class="shipyard-label">Carrier (5 spaces)</p>
       <p class="shipyard-label">Battleship (4 spaces)</p>
       <p class="shipyard-label">Cruiser (3 spaces)</p>
       <p class="shipyard-label">Submarine (3 spaces)</p>
       <p class="shipyard-label">Destroyer (2 spaces)</p>
-    </div>
-    <div class="shipyard">
-      <div>
-        <button class="rotate"><img src="/rotate-right-variant.svg" alt="rotate"></button>
-        <div id="carrier" class="ship"></div>
-      </div>
-      <div>
-        <div id="battleship" class="ship"></div>
-      </div>
-      <div>
-        <div id="cruiser" class="ship"></div>
-      </div>
-      <div>
-        <div id="submarine" class="ship"></div>
-      </div>
-      <div>
-        <div id="destroyer" class="ship"></div>
-      </div>
     </div>
     <button class="restart hide">Play again</button>
     <div class="grid-container">
