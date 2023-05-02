@@ -14,7 +14,7 @@ body {
 
 .message {
     font-size: 26px;
-    margin: 0;
+    margin-top: 0;
 }
 
 .player-grid,
@@ -62,7 +62,9 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-    background-image: url('../rotate-right-variant.svg');
+    background: url('/src/rotate-right-variant.svg');
+    background-repeat: no-repeat;
+    background-position: center;
     transform: rotate(180deg);
     width: 25px;
     height: 25px;
@@ -71,7 +73,7 @@ body {
 }
 
 .rotateBtn-vertical {
-    background-image: url('../rotate-left-variant.svg');
+    background: url('/src/rotate-left-variant.svg');
     transform: rotate(90deg);
 }
 
