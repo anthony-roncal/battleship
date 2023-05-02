@@ -1,4 +1,4 @@
-import '../src/style.css';
+import './style.css';
 import displayController from './displayController';
 import Gameboard from './Gameboard';
 import Player from './Player';
