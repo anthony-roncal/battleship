@@ -22,12 +22,12 @@ export default function displayController(playerGameboard, computerGameboard) {
         }
 
         // remove following loop when finished (this displays computer's ships)
-        computerGameboard.ships.forEach(ship => {
-            for(let i = 0; i < ship.coordinates.length; i++) {
-                let shipIndex = (ship.coordinates[i].y * 10) + ship.coordinates[i].x;
-                computerGrid.children[shipIndex].classList.add('ship');
-            }
-        })
+        // computerGameboard.ships.forEach(ship => {
+        //     for(let i = 0; i < ship.coordinates.length; i++) {
+        //         let shipIndex = (ship.coordinates[i].y * 10) + ship.coordinates[i].x;
+        //         computerGrid.children[shipIndex].classList.add('ship');
+        //     }
+        // })
     };
 
     function updateMessage(displayMessage) {
