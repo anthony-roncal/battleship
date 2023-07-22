@@ -1,7 +1,7 @@
 {
-  "name": "odin-battleship",
+  "name": "battleship",
   "version": "1.0.0",
-  "description": "This is a practice project for The Odin Project: Battleship.",
+  "description": "This is a rendition of the classic game Battleship.",
   "private": true,
   "scripts": {
     "test": "jest",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anthony-roncal/odin-battleship.git"
+    "url": "git+https://github.com/anthony-roncal/battleship.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/anthony-roncal/odin-battleship/issues"
+    "url": "https://github.com/anthony-roncal/battleship/issues"
   },
-  "homepage": "https://github.com/anthony-roncal/odin-battleship#readme",
+  "homepage": "https://github.com/anthony-roncal/battleship",
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
