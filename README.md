@@ -1,3 +1,3 @@
-# odin-battleship
+# battleship
 
-This is a practice project for The Odin Project: Battleship.
+View app at: https://anthony-roncal.github.io/battleship/
